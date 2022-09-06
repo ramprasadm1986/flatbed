@@ -39,6 +39,7 @@ use yii\data\ActiveDataProvider;
 use <?= ltrim($generator->baseControllerClass, '\\') ?>;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * <?= $controllerClass ?> implements the CRUD actions for <?= $modelClass ?> model.
@@ -51,6 +52,16 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                   
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -77,6 +88,18 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 <?php else: ?>
         $dataProvider = new ActiveDataProvider([
             'query' => <?= $modelClass ?>::find(),
+            /*
+            'pagination' => [
+                'pageSize' => 50
+            ],
+            'sort' => [
+                'defaultOrder' => [
+<?php foreach ($pks as $pk): ?>
+                    <?= "'$pk' => SORT_DESC,\n" ?>
+<?php endforeach; ?>
+                ]
+            ],
+            */
         ]);
 
         return $this->render('index', [
@@ -107,8 +130,16 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model = new <?= $modelClass ?>();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', <?= $urlParams ?>]);
+        if ($this->request->isPost) {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                Yii::$app->session->setFlash('success', '<?= $modelClass ?> Created Successfully');
+                return $this->redirect(['view', <?= $urlParams ?>]);
+            }
+            else{
+                Yii::$app->session->setFlash('error', 'Unable To Create <?= $modelClass ?>');
+            }
+        } else {
+            $model->loadDefaultValues();
         }
 
         return $this->render('create', [
@@ -127,8 +158,14 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model = $this->findModel(<?= $actionParams ?>);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', <?= $urlParams ?>]);
+        if ($this->request->isPost){
+            if($model->load(Yii::$app->request->post()) && $model->save()) {                        
+                Yii::$app->session->setFlash('success', '<?= $modelClass ?> Updated Successfully');
+                return $this->redirect(['view', <?= $urlParams ?>]);
+            }
+            else{
+                Yii::$app->session->setFlash('error', 'Unable To Update <?= $modelClass ?>');
+            }
         }
 
         return $this->render('update', [
@@ -147,7 +184,12 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model=$this->findModel(<?= $actionParams ?>);
         $model->is_delete=1;
-        $model->save(false);
+        if($model->save(false){
+            Yii::$app->session->setFlash('success', 'Record Deleted Successfully');
+        }
+        else{
+            Yii::$app->session->setFlash('error', 'Unable To Delete Record'); 
+        }
         return $this->redirect(['index']);
     }
 
