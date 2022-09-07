@@ -184,7 +184,7 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model=$this->findModel(<?= $actionParams ?>);
         $model->is_delete=1;
-        if($model->save(false){
+        if($model->save(false)){
             Yii::$app->session->setFlash('success', 'Record Deleted Successfully');
         }
         else{
