@@ -217,7 +217,7 @@ a, a:hover, a:focus {
 }
 .dcjq-icon:before
 {
-    font-family: fontawesome;
+    font-family: "Font Awesome 5 Free";
     font-size: 12px;
     font-weight: bold;
 
@@ -230,7 +230,7 @@ a, a:hover, a:focus {
     transition: all .3s ease;
 }
 
-.active .dcjq-icon:before
+.active > .dcjq-icon:before
 {
     -webkit-transform: rotateZ(180deg);
     -ms-transform: rotate(180deg);
@@ -285,7 +285,7 @@ ul.sidebar-menu li ul.sub li a {
     color: #aeb2b7;
 }
 
-ul.sidebar-menu li ul.sub li a:hover, ul.sidebar-menu li ul.sub li.active a {
+ul.sidebar-menu li ul.sub li > a:hover, ul.sidebar-menu li ul.sub li.active > a {
     color: #FF6C60;
     -webkit-transition: all 0.3s ease;
     -moz-transition: all 0.3s ease;
@@ -3599,7 +3599,7 @@ table.sliders tr td {
 .tagsinput-remove-link:before {
     color: #ffffff;
     content: "\f00d";
-    font-family: "FontAwesome";
+    font-family: "Font Awesome 5 Free";
 }
 .tagsinput-add-container {
     vertical-align: middle;
@@ -3628,7 +3628,7 @@ table.sliders tr td {
 }
 .tagsinput-add:before {
     content: "\f067";
-    font-family: "FontAwesome";
+    font-family: "Font Awesome 5 Free";
 }
 .tags_clear {
     clear: both;
@@ -4305,7 +4305,7 @@ span.customSelect.changed {
 }
 .rating span.star,
 .rating span.star {
-    font-family: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     font-weight: normal;
     font-style: normal;
     display: inline-block;

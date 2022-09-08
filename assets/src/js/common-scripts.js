@@ -11,6 +11,12 @@ $(function() {
 //        cookie: 'dcjq-accordion-1',
         classExpand: 'dcjq-current-parent'
     });
+    $("#nav-accordion li.sub-menu").each(function(){
+        if($(this).hasClass("active")){
+            $("a:first", this).addClass("active");
+            $("ul:first", this).show();
+        }
+    });
 });
 
 
